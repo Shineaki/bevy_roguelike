@@ -1,6 +1,15 @@
 use bevy::prelude::*;
 use bevy::diagnostic::FrameTimeDiagnosticsPlugin;
 
+#[derive(PartialEq, Eq, Hash, Clone)]
+enum AnimationState {
+    IDLE,
+    RUNNING,
+}
+
+#[derive(Component)]
+struct CurrentAnimationState(AnimationState);
+
 #[derive(Component)]
 struct AnimationIndices {
     first: usize,
@@ -51,6 +60,7 @@ fn setup(
                 index: animation_indices.first,
             },
         ),
+        CurrentAnimationState(AnimationState::IDLE),
         Transform::from_scale(Vec3::splat(3.0)),
         animation_indices,
         AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
